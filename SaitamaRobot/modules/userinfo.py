@@ -197,7 +197,7 @@ async def group_info(event) -> None:
     await event.reply(msg)
 
 
-@run_async
+
 def gifid(update: Update, context: CallbackContext):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.animation:
