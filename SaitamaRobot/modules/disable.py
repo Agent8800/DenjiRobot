@@ -26,7 +26,7 @@ if is_module_loaded(FILENAME):
         user_admin,
     )
     from SaitamaRobot.modules.sql import disable_sql as sql
-    from telegram.ext.dispatcher import 
+     
 
     DISABLE_CMDS = []
     DISABLE_OTHER = []
