@@ -4,7 +4,6 @@ from SaitamaRobot import dispatcher
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram import ParseMode, Update
-from telegram.ext.dispatcher import 
 from telegram.ext import CallbackContext, Filters, CommandHandler
 
 MARKDOWN_HELP = f"""
