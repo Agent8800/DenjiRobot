@@ -4,7 +4,6 @@ from telegram import Message, Chat, ParseMode, MessageEntity
 from telegram import TelegramError, ChatPermissions
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, MessageHandler, Filters
-from telegram.ext.dispatcher import 
 from telegram.utils.helpers import mention_html
 
 from alphabet_detector import AlphabetDetector
