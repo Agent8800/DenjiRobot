@@ -53,26 +53,25 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-────「*Hey, I'm Uta* [🌸](https://telegra.ph/file/fd9e3373475d808b2a769.jpg) 」────
-*×× I'm a Hashira! A Anime themed advance group management bot with a lot of advance Features! ××*
-➖➖➖➖➖➖➖➖➖➖
-*×× Try The Help Buttons Below To Know My Abilities ××*
-➖➖➖➖➖➖➖➖➖➖
+*Hey there {}! My name is Denji(チェンソーマン(Chainsaw Man)*[❗](https://telegra.ph/file/d81317ff203d640da6e95.jpg)
+*I am Demon Hunter and
+I Slay Bad Demons and help admins manage their groups with My Commands!
+Type /help to see my functions and commands...*
 """
 
 buttons = [
     [
         InlineKeyboardButton(
-            text="🌸 ADD Mitsuri TO YOUR GROUP 🌸",url="t.me/MitsuriXRobot?startgroup=true"),
+            text="🙃 ADD Denji TO YOUR GROUP",url="t.me/DenjiXRobot?startgroup=true"),
     ],
     [
         InlineKeyboardButton(
-            text="📮 Logs", url="https://t.me/Mitsuri_Logs_Support"),
+            text="📮 Support", url="https://t.me/Mitsuri_Logs_Support"),
           
 
 
 InlineKeyboardButton(
-            text="🎉 SUPPORT", url="https://telegram.dog/MitsuriHelpSupport"
+            text="📃 Updates Channel", url="https://telegram.dog/TeamxXYZ"
         ),
 
     ],
