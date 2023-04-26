@@ -34,3 +34,4 @@ wikipedia
 zalgo-text
 ffmpeg-python
 emoji==1.7.0
+pyrogram==1.4.16
