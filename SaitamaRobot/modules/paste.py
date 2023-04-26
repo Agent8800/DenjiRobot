@@ -2,10 +2,10 @@ import requests
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from telegram import ParseMode, Update
-from telegram.ext import CallbackContext, run_async
+from telegram.ext import CallbackContext
 
 
-@run_async
+
 def paste(update: Update, context: CallbackContext):
     args = context.args
     message = update.effective_message
@@ -36,7 +36,7 @@ def paste(update: Update, context: CallbackContext):
     )
 
 
-PASTE_HANDLER = DisableAbleCommandHandler("paste", paste)
+PASTE_HANDLER = DisableAbleCommandHandler("paste", paste, run_async=True)
 dispatcher.add_handler(PASTE_HANDLER)
 
 __command_list__ = ["paste"]
