@@ -9,7 +9,6 @@ from telethon import events
 
 from telegram import MAX_MESSAGE_LENGTH, ParseMode, Update, MessageEntity
 from telegram.ext import CallbackContext, CommandHandler
-from telegram.ext.dispatcher import 
 from telegram.error import BadRequest
 from telegram.utils.helpers import escape_markdown, mention_html
 
