@@ -33,3 +33,4 @@ ujson
 wikipedia
 zalgo-text
 ffmpeg-python
+emoji==1.7.0
