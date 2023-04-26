@@ -1,13 +1,13 @@
 from emoji import UNICODE_EMOJI
 from google_trans_new import LANGUAGES, google_translator
 from telegram import ParseMode, Update
-from telegram.ext import CallbackContext, run_async
+from telegram.ext import CallbackContext
 
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 
-@run_async
+
 def totranslate(update: Update, context: CallbackContext):
     message = update.effective_message
     problem_lang_code = []
@@ -97,7 +97,7 @@ __help__ = """
   `/tr hi-en`*:* translates hindi to english
 """
 
-TRANSLATE_HANDLER = DisableAbleCommandHandler(["tr", "tl"], totranslate)
+TRANSLATE_HANDLER = DisableAbleCommandHandler(["tr", "tl"], totranslate, run_async=True)
 
 dispatcher.add_handler(TRANSLATE_HANDLER)
 
