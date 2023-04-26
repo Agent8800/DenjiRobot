@@ -1,10 +1,10 @@
 import requests
 from SaitamaRobot import CASH_API_KEY, dispatcher
 from telegram import Update, ParseMode
-from telegram.ext import CallbackContext, CommandHandler, run_async
+from telegram.ext import CallbackContext, CommandHandler
 
 
-@run_async
+
 def convert(update: Update, context: CallbackContext):
     args = update.effective_message.text.split(" ")
 
@@ -50,7 +50,7 @@ def convert(update: Update, context: CallbackContext):
         )
 
 
-CONVERTER_HANDLER = CommandHandler("cash", convert)
+CONVERTER_HANDLER = CommandHandler("cash", convert, run_async=True)
 
 dispatcher.add_handler(CONVERTER_HANDLER)
 
