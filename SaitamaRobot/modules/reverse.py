@@ -88,7 +88,7 @@ def reverse(update: Update, context: CallbackContext):
         return
 
     try:
-        searchUrl = "https://www.google.com/searchbyimage/upload"
+        searchUrl = "https://www.google.com/searchbyimage/image_url="
         multipart = {
             "encoded_image": (imagename, open(imagename, "rb")),
             "image_content": "",
@@ -222,7 +222,7 @@ def grs(update: Update, context: CallbackContext):
         return
 
     try:
-        searchUrl = "https://www.google.com/searchbyimage/upload"
+        searchUrl = "https://www.google.com/searchbyimage/image_url="
         multipart = {
             "encoded_image": (imagename, open(imagename, "rb")),
             "image_content": "",
@@ -356,7 +356,7 @@ def gg(update: Update, context: CallbackContext):
         return
 
     try:
-        searchUrl = "https://www.google.com/searchbyimage/upload"
+        searchUrl = "https://www.google.com/searchbyimage/image_url="
         multipart = {
             "encoded_image": (imagename, open(imagename, "rb")),
             "image_content": "",
