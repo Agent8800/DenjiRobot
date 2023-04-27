@@ -102,10 +102,7 @@ All commands can either be used with / or !.
 And the following:
 """
 
-DONATE_STRING = """Heya, glad to hear you want to donate!
- You can support the project via [Paytm](#) or by contacting @The_Ghost_Hunter\
- Supporting isnt always financial! \
- Those who cannot provide monetary support are welcome to help us develop the bot at ."""
+DONATE_STRING = """Heya, glad to hear you want to donate! Denji is Free For all, so we don't really need any donations 💕💕."""
 
 IMPORTED = {}
 MIGRATEABLE = []
