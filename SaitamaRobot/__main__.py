@@ -86,7 +86,7 @@ InlineKeyboardButton(
 HELP_STRINGS = """
 Hey there! My Name is Denji!
 I am an Anime themed group management bot.
-To add me to your group click ["HERE"](http://t.me/TanjiroKamadoRobot?startgroup=botstart)
+To add me to your group click ["HERE"](http://t.me/DenjiXRobot?startgroup=botstart)
 
 *Main commands available:*
  • /help: PM's you this message.
