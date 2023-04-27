@@ -53,7 +53,7 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-*Hey there* {}*! My name is Denji(チェンソーマン(Chainsaw Man)*[❗](https://telegra.ph/file/d81317ff203d640da6e95.jpg)
+*Hey there* {} *! My name is Denji(チェンソーマン(Chainsaw Man)*[❗](https://telegra.ph/file/d81317ff203d640da6e95.jpg)
 *I am Demon Hunter and
 I Slay Bad Demons and help admins manage their groups with My Commands!
 Type /help to see my functions and commands...*
