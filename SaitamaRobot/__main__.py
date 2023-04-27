@@ -53,7 +53,7 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-*Hey there {}! My name is Denji(チェンソーマン(Chainsaw Man)*[❗](https://telegra.ph/file/d81317ff203d640da6e95.jpg)
+*Hey there* {}*! My name is Denji(チェンソーマン(Chainsaw Man)*[❗](https://telegra.ph/file/d81317ff203d640da6e95.jpg)
 *I am Demon Hunter and
 I Slay Bad Demons and help admins manage their groups with My Commands!
 Type /help to see my functions and commands...*
@@ -77,17 +77,29 @@ InlineKeyboardButton(
     ],
     [
         InlineKeyboardButton(
-              text="🔐 Help", callback_data="help_back"),
+              text="🔐 Help and Commands", callback_data="help_back"),
        
     ],
 ]
 
 
 HELP_STRINGS = """
-*Mitsuri Kanroji comes with:
-AI Chatbot, Anime, Music, Notes, Filters, and more!*
-*🌸 All commands can either be used with / or !.*
-*🌸 Reach out for support: @MitsuriHelpSupport .*
+Hey there! My Name is Denji!
+I am an Anime themed group management bot.
+To add me to your group click ["HERE"](http://t.me/TanjiroKamadoRobot?startgroup=botstart)
+
+*Main commands available:*
+ • /help: PM's you this message.
+ • /help <module name>: PM's you info about that module.
+ • /donate: information on how to donate!
+ • /settings:
+   • in PM: will send you your settings for all supported modules.
+   • in a group: will redirect you to pm, with all that chat's settings.
+
+
+All commands can either be used with / or !.
+
+And the following:
 """
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
