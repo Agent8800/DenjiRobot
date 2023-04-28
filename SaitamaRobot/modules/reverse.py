@@ -439,7 +439,7 @@ def ParseSauce(googleurl):
         pass
 
     for similar_image in soup.findAll("input", {"class": "gLFyf"}):
-        url = "https://www.google.hr/imghp?sbi=" + urllib.parse.quote_plus(
+        url = "https://www.google.com/imghp?sbi=1" + urllib.parse.quote_plus(
             similar_image.get("value")
         )
         results["similar_images"] = url
