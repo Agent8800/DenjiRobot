@@ -63,3 +63,22 @@ async def on_reverse(client: Client, message: Message) -> Message:
         ]
     await message.reply(text, reply_markup=InlineKeyboardMarkup(reply_markup))
     await status_msg.delete()
+
+    
+    REVERSE_HANDLER = DisableAbleCommandHandler(
+    ["reverse", "pp","PP", "Pp"], reverse, pass_args=True, admin_ok=True, run_async=True
+)
+GRS_HANDLER = DisableAbleCommandHandler(
+    "grs", grs, pass_args=True, admin_ok=True, run_async=True
+)
+
+dispatcher.add_handler(REVERSE_HANDLER)
+dispatcher.add_handler(GRS_HANDLER)
+dispatcher.add_handler(GG_HANDLER)
+
+__mod_name__ = "Reverse"
+__help__ = """
+*Reverse*
+ ❍ `/pp` : Please reply to a sticker, or an image to search it!
+ ❍ `/reverse` : Please reply to a sticker, or an image to search it!
+"""
