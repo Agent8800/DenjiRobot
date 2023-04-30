@@ -10,7 +10,6 @@ from pyrogram import Client, filters
 from pyrogram.types import (InlineKeyboardMarkup, InlineKeyboardButton, Message)
 import httpx
 
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot import dispatcher
 from SaitamaRobot import pbot
 
@@ -67,7 +66,7 @@ async def on_reverse(client: Client, message: Message) -> Message:
     await status_msg.delete()
 
     
-    REVERSE_HANDLER = DisableAbleCommandHandler(
+    REVERSE_HANDLER = CommandHandler(
     ["reverse", "pp","PP", "Pp", "grs"], reverse, pass_args=True, admin_ok=True, run_async=True
 )
 
