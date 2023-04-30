@@ -66,3 +66,9 @@ async def on_reverse(client: Client, message: Message) -> Message:
 
     
     
+__mod_name__ = "Reverse"
+__help__ = """
+*Reverse*
+ ❍ `/pp` : Please reply to a sticker, or an image to search it!
+ ❍ `/reverse` : Please reply to a sticker, or an image to search it!
+"""
