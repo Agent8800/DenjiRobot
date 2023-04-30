@@ -11,6 +11,7 @@ from pyrogram.types import (InlineKeyboardMarkup, InlineKeyboardButton, Message)
 import httpx
 
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from SaitamaRobot import dispatcher
 from SaitamaRobot import pbot
 
 API_URL = 'https://sasta.tk/google_reverse'
