@@ -3,7 +3,7 @@ from pyrogram import Client, filters
 from pyrogram.types import (InlineKeyboardMarkup, InlineKeyboardButton, Message)
 import httpx
 
-from YourRobot import dispatcher
+from SaitamaRobot import dispatcher
 
 API_URL = 'https://sasta.tk/google_reverse'
 
