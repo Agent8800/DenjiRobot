@@ -2,14 +2,15 @@ import requests
 import json
 import os
 
+
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import CommandHandler
 
 from SaitamaRobot import dispatcher
 
 
-api_key = "blue-api-testing"
-url = 'https://blue-api.vercel.app/reverse'
+
+API_URL = 'https://sasta.tk/google_reverse'
 
 def reverse(update, context):
     message = update.effective_message
