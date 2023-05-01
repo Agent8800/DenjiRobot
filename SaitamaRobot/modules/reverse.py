@@ -148,7 +148,7 @@ def ParseSauce(googleurl):
         pass
 
     for similar_image in soup.findAll('input', {'class': 'gLFyf'}):
-            url = 'https://www.google.com/search?tbs=sbi=' + urllib.parse.quote_plus(similar_image.get('value'))
+            url = 'https://www.google.com/search?=' + urllib.parse.quote_plus(similar_image.get('value'))
             results['similar_images'] = url
 
     for best_guess in soup.findAll('div', attrs={'class':'r5a77d'}):
