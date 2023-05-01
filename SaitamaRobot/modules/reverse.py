@@ -3,14 +3,14 @@ import json
 import aiohttp
 import json
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import ContextTypes, CommandHandler
+from telegram.ext import CallbackContext, CommandHandler
 
 from SaitamaRobot import BLUE_API
 
 url = 'https://blue-api.vercel.app/reverse'
 
 
-async def reverse(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def reverse(update: Update, context: CallbackContext):
     message = update.effective_message
     chat_id = update.effective_chat.id
 
