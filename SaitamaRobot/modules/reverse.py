@@ -10,7 +10,7 @@ from SaitamaRobot import BLUE_API, dispatcher
 url = 'https://blue-api.vercel.app/reverse'
 
 
-async def reverse(handler.handle_update(update, self, check, context):
+async def reverse(update: Update, context: CallbackContext):
     message = update.effective_message
     chat_id = update.effective_chat.id
 
