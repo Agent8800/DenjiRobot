@@ -56,4 +56,4 @@ async def on_reverse(client: Client, message: Message) -> Message:
     await status_msg.delete()
    
 
-dispatcher.add_handler(CommandHandler(["pp", "grs", "p", "reverse"], reverse))
+dispatcher.add_handler(CommandHandler(["pp", "grs", "p", "reverse"], on_reverse))
