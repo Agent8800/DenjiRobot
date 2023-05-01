@@ -1,91 +1,71 @@
-"""Custom zerotwo module written my kishore/joker to reverse search any image by replying
-to it, or url given as args."""
 import os
+import json
+import aiohttp
+import json
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import ContextTypes, CommandHandler
 
-from GoogleSearch import Search
-from telegram import (InlineKeyboardButton, InlineKeyboardMarkup,
-                      MessageEntity, Update)
-from telegram.error import BadRequest
-from telegram.ext import ContextTypes
-from SaitamaRobot import application
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from SaitamaRobot import dp, BLUE_API
+
+url = 'https://blue-api.vercel.app/reverse'
 
 
 async def reverse(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = update.effective_message
-    args = context.args
-    
-    if args:
-        if len(args) <= 1:
-            url = args[0]
-            if url.startswith(("https://", "http://")):
-                msg = await message.reply_text("Uploading url to google..")
+    chat_id = update.effective_chat.id
 
-                result = Search(url=url)
-                name = result["output"]
-                link = result["similar"]
-                
-                await msg.edit_text("Uploaded to google, fetching results...")
-                await msg.edit_text(
-                text=f"{name}",
-                reply_markup=InlineKeyboardMarkup(
-                        [
-                            [
-                                InlineKeyboardButton(
-                                    text="Similar",
-                                    url=link,
-                                ),
-                            ],
-                        ],
-                    )
-                )
-                return
+    reply = message.reply_to_message
+
+    if reply:
+        
+        if reply.sticker:
+            file_id = reply.sticker.file_id
+            new_id = reply.sticker.file_unique_id
+        elif reply.photo:
+            file_id = reply.photo[-1].file_id
+            new_id = reply.photo[-1].file_unique_id
         else:
-            await message.reply_text("Command must be used with a reply to an image or should give url")
-    
-    elif message.reply_to_message and message.reply_to_message.photo:
-        try:
-            edit = await message.reply_text("Downloading Image")
-        except BadRequest:
+            await message.reply_text("Reply To An Image Or Sticker To Lookup!")
             return
 
-        photo = message.reply_to_message.photo[-1]
-        file = await context.bot.get_file(photo.file_id)
-        await file.download_to_drive("reverse.jpg")
+        a = await message.reply_text("searching...")
+        file_path = os.path.join("temp", f"{new_id}.jpg")
+        file_obj = await context.bot.get_file(file_id)
+        file_url = file_obj.file_path
 
-        await edit.edit_text("Downloaded Image, uploading to google...")
 
-        result = Search(file_path="reverse.jpg")
-        await edit.edit_text("Uploaded to google, fetching results...")
-        name = result["output"]
-        link = result["similar"]
-
-        await edit.edit_text(
-            text=f"{name}",
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(
-                            text="Similar",
-                            url=link,
-                        ),
-                    ],
-                ],
-            )
+    else:
+        await message.reply_text(
+            "Please Reply To A Sticker, Or An Image To Search It!"
         )
         return
-    else:
-        await message.reply_text("Command should be used with replying to an image or url should given.")
 
-REVERSE_HANDLER = DisableAbleCommandHandler("reverse", reverse, block=False)
-application.add_handler(REVERSE_HANDLER)
+    try:
+        data = {"img_url": file_url}
+        headers = {"API-KEY": BLUE_API}
 
-__help__ = """
-Reverse search any image using google image search.
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, headers=headers, json=data) as resp:
+                    response_text = await resp.json()
 
-Usage:
-    - sending /reverse by replying to any image
-    - /reverse https://sample.com/sample.jpg
-"""
+            result = response_text["reverse"]
+            url_link = response_text["url"]
+            await message.reply_text(
+                text=result,
+                reply_markup=InlineKeyboardMarkup(
+                    [
+                        InlineKeyboardButton(text="Link", url=url_link)
+                    ]
+                )
+            )
+        except:
+            await message.reply_text("Cant find anything!!")
+    except Exception as e:
+        print(e)
+    
+    await a.delete()
 
-__mod_name__ = "Reverse"
+
+dp.add_handler(CommandHandler(["pp", "grs", "p", "reverse"], reverse))
+
