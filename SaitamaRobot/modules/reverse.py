@@ -5,7 +5,7 @@ import json
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes, CommandHandler
 
-from SaitamaRobot import dp, BLUE_API
+from SaitamaRobot import BLUE_API
 
 url = 'https://blue-api.vercel.app/reverse'
 
