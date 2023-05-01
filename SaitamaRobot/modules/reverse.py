@@ -189,7 +189,7 @@ Reports bugs at @GabiHelpSupport
 __mod_name__ = "Image Search"
 
 REVERSE_HANDLER = DisableAbleCommandHandler(
-      ["reverse", "pp","PP", "Pp"], reverse, pass_args=True, admin_ok=True, run_async=True, run_async=True
+      ["reverse", "pp","PP", "Pp"], reverse, pass_args=True, admin_ok=True, run_async=True
 ) 
 
 
