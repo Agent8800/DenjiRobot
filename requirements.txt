@@ -19,10 +19,10 @@ nltk
 Pillow>=4.2.0
 pretty_errors
 psutil
-psycopg2-binary
+#psycopg2-binary==2.9.6
 pynewtonmath
 pyrate-limiter
-python-telegram-bot==13.12
+python-telegram-bot==20.0
 regex
 requests==2.20.0
 spamwatch
