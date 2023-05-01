@@ -5,7 +5,7 @@ import json
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import CallbackContext, CommandHandler
 
-from SaitamaRobot import BLUE_API
+from SaitamaRobot import BLUE_API, dispatcher
 
 url = 'https://blue-api.vercel.app/reverse'
 
@@ -67,5 +67,5 @@ async def reverse(update: Update, context: CallbackContext):
     await a.delete()
 
 
-dp.add_handler(CommandHandler(["pp", "grs", "p", "reverse"], reverse))
+dispatcher.add_handler(CommandHandler(["pp", "grs", "p", "reverse"], reverse))
 
