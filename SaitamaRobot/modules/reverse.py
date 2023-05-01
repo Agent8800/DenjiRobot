@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 
 from telegram import InputMediaPhoto, TelegramError
 from telegram import Update
-from telegram.ext import CallbackContext, run_async
+from telegram.ext import CallbackContext
 
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
@@ -18,7 +18,7 @@ opener = urllib.request.build_opener()
 useragent = 'Mozilla/5.0 (Linux; Android 6.0.1; SM-G920V Build/MMB29K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.98 Mobile Safari/537.36'
 opener.addheaders = [('User-agent', useragent)]
 
-@run_async
+
 def reverse(update: Update, context:CallbackContext):
     if os.path.isfile("okgoogle.png"):
         os.remove("okgoogle.png")
@@ -148,7 +148,7 @@ def ParseSauce(googleurl):
         pass
 
     for similar_image in soup.findAll('input', {'class': 'gLFyf'}):
-            url = 'https://www.google.com/search?tbm=isch&q=' + urllib.parse.quote_plus(similar_image.get('value'))
+            url = 'https://www.google.com/search?tbs=sbi=' + urllib.parse.quote_plus(similar_image.get('value'))
             results['similar_images'] = url
 
     for best_guess in soup.findAll('div', attrs={'class':'r5a77d'}):
@@ -189,7 +189,8 @@ Reports bugs at @GabiHelpSupport
 __mod_name__ = "Image Search"
 
 REVERSE_HANDLER = DisableAbleCommandHandler(
-    "reverse", reverse, pass_args=True, admin_ok=True
-)
+      ["reverse", "pp","PP", "Pp"], reverse, pass_args=True, admin_ok=True, run_async=True, run_async=True
+) 
+
 
 dispatcher.add_handler(REVERSE_HANDLER)
