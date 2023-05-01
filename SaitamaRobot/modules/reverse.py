@@ -1,6 +1,8 @@
 import uuid
 from pyrogram import Client, filters
-from pyrogram.types import (CommandHandler, InlineKeyboardMarkup, InlineKeyboardButton, Message)
+from pyrogram.types import (InlineKeyboardMarkup, InlineKeyboardButton, Message)
+from telegram.ext import CommandHandler
+
 import httpx
 
 from SaitamaRobot import dispatcher
