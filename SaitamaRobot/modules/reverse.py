@@ -1,42 +1,24 @@
-from SaitamaRobot import pbot as app
-from SaitamaRobot import TOKEN as bot_token
-from pyrogram import filters
-import requests
-from urllib.parse import quote_plus
-from bs4 import BeautifulSoup
-from unidecode import unidecode
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
- 
-from gpytranslate import SyncTranslator
-trans = SyncTranslator()
- 
+"""
+MIT License
 
- 
-def isEnglish(s):
-  return s.isascii()
- 
-async def Sauce(bot_token,file_id):
-    r = requests.post(f'https://api.telegram.org/bot{6263226191:AAEloW4Yc4RdfV9bW5mDBD953GGAZRwme6k}/getFile?file_id={file_id}').json()
-    file_path = r['result']['file_path']
-    headers = {'User-agent': 'Mozilla/5.0 (Linux; Android 6.0.1; SM-G920V Build/MMB29K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.98 Mobile Safari/537.36'}
-    to_parse = f"https://images.google.com/searchbyimage?safe=off&sbisrc=tg&image_url=https://api.telegram.org/file/bot{6263226191:AAEloW4Yc4RdfV9bW5mDBD953GGAZRwme6k}/{file_path}"
-    r = requests.get(to_parse,headers=headers)
-    soup = BeautifulSoup(r.text, 'html.parser')
-    result = {                            
-             "similar": '',
-             'output': ''
-         }
-    for similar_image in soup.find_all('input', {'class': 'gLFyf'}):
-         url = f"https://www.google.com/search?tbm=isch&q={quote_plus(similar_image.get('value'))}"
-         result['similar'] = url
-    for best in soup.find_all('div', {'class': 'r5a77d'}):
-        output = best.get_text()
-        decoded_text =  unidecode(output)
-        result["output"] = decoded_text
-       
-    return result
- 
-async def get_file_id_from_message(message):
+Copyright (c) 2023 SOME-1HING
+
+This file uses the "google-reverse-image-api" API made by "SOME-1HING"
+(https://github.com/SOME-1HING/google-reverse-image-api) under the terms of the MIT license.
+
+"""
+
+import requests
+from pyrogram import filters, client  # Pyrogram v2.0 and up
+from pyrogram.enums import ParseMode
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+
+from SaitamaRobot import pbot, TOKEN  # Look https://www.github.com/SOME-1HING/ShikimoriBot
+
+API_URL = "https://google-reverse-image-api.vercel.app/reverse"
+
+
+async def get_file_id_from_message(message: Message):
     file_id = None
     message = message.reply_to_message
     if not message:
@@ -48,7 +30,7 @@ async def get_file_id_from_message(message):
         if mime_type not in ("image/png", "image/jpeg"):
             return
         file_id = message.document.file_id
- 
+
     if message.sticker:
         if message.sticker.is_animated:
             if not message.sticker.thumbs:
@@ -56,49 +38,64 @@ async def get_file_id_from_message(message):
             file_id = message.sticker.thumbs[0].file_id
         else:
             file_id = message.sticker.file_id
- 
+
     if message.photo:
         file_id = message.photo.file_id
- 
+
     if message.animation:
         if not message.animation.thumbs:
             return
         file_id = message.animation.thumbs[0].file_id
- 
+
     if message.video:
         if not message.video.thumbs:
             return
         file_id = message.video.thumbs[0].file_id
     return file_id
-   
- 
- 
-@app.on_message(filters.command(["pp","grs","reverse","p","s"]))
-async def _reverse(_,msg):
-    text = await msg.reply("Downloading Media To My Locals...")
+
+
+@pbot.on_message(filters.command(["pp", "grs", "reverse"]))
+async def reverse(app: client, msg: Message):
+    text = await msg.reply("```Parsing Media...```", parse_mode=ParseMode.MARKDOWN)
     file_id = await get_file_id_from_message(msg)
     if not file_id:
-        return await text.edit("Reply to a Photo or sticker")
-    await text.edit("Searching...")    
-    result = await Sauce(bot_token,file_id)
-    if not result["output"]:
-        return await text.edit("Couldn't find anything")
-    await text.edit("Gathering Sauce...")
-    resultsss = f'Sauce: <code>{result["output"]}</code>'
-    await text.edit(f'Sauce: <code>{result["output"]}</code>',reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Link",url=result["similar"])]]))
-   
-    # source = str(trans.detect(str(result["output"])))
-   
-    if not isEnglish(result['output']):
-        source = trans.detect(result['output'])
-        await text.edit(f"{resultsss}\nAnother Language Detected Translating...")
-        dest = "en"
-        translation = trans(result['output'], sourcelang=source, targetlang=dest)
-        # print(translation.text)
-        # print(mesg)
-        # print(str(source))
-        await text.edit(f"{resultsss}\n\nWait Heres The Translation for You!\nTranslation : <code>{translation.text}</code>")
- 
-    else :
-        pass
+        return await text.edit(
+            "Reply to a Photo or sticker", parse_mode=ParseMode.MARKDOWN
+        )
+    await text.edit("```Searching...```", parse_mode=ParseMode.MARKDOWN)
+
+    r = requests.post(
+        f"https://api.telegram.org/bot{TOKEN}/getFile?file_id={file_id}"
+    ).json()
+    file_path = r["result"]["file_path"]
+
+    data = {
+        "imageUrl": f"https://images.google.com/searchbyimage?safe=off&sbisrc=tg&image_url=https://api.telegram.org/file/bot{TOKEN}/{file_path}"
+    }
+
+    response = requests.post(API_URL, json=data)
+
+    if response.status_code == 200:
+        result = response["data"]
+        return await text.edit(
+            f'Sauce: ```{result["output"]}```',
+            parse_mode=ParseMode.MARKDOWN,
+            reply_markup=InlineKeyboardMarkup(
+                [[InlineKeyboardButton("Link", url=result["similar"])]]
+            ),
+        )
+    elif response.status_code == 401:
+        return await text.edit(
+            "```Couldn't find anything```", parse_mode=ParseMode.MARKDOWN
+        )
+    elif response.status_code == 402:
+        return await text.edit(
+            "```Failed to reverse image```", parse_mode=ParseMode.MARKDOWN
+        )
+    elif response.status_code <= 500:
+        return await text.edit("```Error in API```", parse_mode=ParseMode.MARKDOWN)
+    else:
+        return await text.edit(
+            "```Unknown Error Occurred```", parse_mode=ParseMode.MARKDOWN
+        )
  
