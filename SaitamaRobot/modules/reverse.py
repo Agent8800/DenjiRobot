@@ -1,5 +1,5 @@
 import requests
-from SaitamaRobot import dispatcher, Bot_token as Token
+from SaitamaRobot import dispatcher, TOKEN
 from telegram import *
 from telegram.ext import *
 
