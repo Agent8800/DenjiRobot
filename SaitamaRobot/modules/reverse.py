@@ -36,7 +36,7 @@ def reverse(update: Update, context: CallbackContext):
                     [
                         [
                             InlineKeyboardButton(
-                                "Open Link",url=result["similarUrl"
+                                "Open Link",url=result["data"]["similarUrl"
                               ]
                            )
                         ]
