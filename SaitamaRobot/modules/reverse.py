@@ -19,11 +19,11 @@ def reverse(update: Update, context: CallbackContext):
 
         photo_id = update.effective_message.reply_to_message.photo[-1].file_id
         get_path = requests.post(
-            f"https://api.telegram.org/bot{Token}/getFile?file_id={photo_id}"
+            f"https://api.telegram.org/bot{TOKEN}/getFile?file_id={photo_id}"
         ).json()
         file_path = get_path["result"]["file_path"]
         data = {
-            "imageUrl": f"https://images.google.com/searchbyimage?safe=off&sbisrc=tg&image_url=https://api.telegram.org/file/bot{Token}/{file_path}"
+            "imageUrl": f"https://images.google.com/searchbyimage?safe=off&sbisrc=tg&image_url=https://api.telegram.org/file/bot{TOKEN}/{file_path}"
         }
 
         response = requests.post(url, json=data)
