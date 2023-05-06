@@ -36,7 +36,7 @@ def reverse(update: Update, context: CallbackContext):
                     [
                         [
                             InlineKeyboardButton(
-                                "Open Link",url=result["similar"
+                                "Open Link",url=result["similarUrl"
                               ]
                            )
                         ]
@@ -47,6 +47,6 @@ def reverse(update: Update, context: CallbackContext):
             update.effective_message.reply_text("Some exception occured")
 
 
-reverse_cmd = CommandHandler("reverse", reverse, run_async=True)
+reverse_cmd = CommandHandler(["reverse", "pp","PP", "Pp"], reverse, run_async=True)
 
 dispatcher.add_handler(reverse_cmd)
