@@ -37,10 +37,11 @@ def reverse(update: Update, context: CallbackContext):
                         [
                             InlineKeyboardButton(
                                 "Open Link",url=result["similar"
-                            )
+                              ]
+                           )
                         ]
                     ]
-                ),
+                )
             )
         else:
             update.effective_message.reply_text("Some exception occured")
