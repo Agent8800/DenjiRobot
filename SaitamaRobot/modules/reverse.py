@@ -5,27 +5,17 @@ import os
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import CommandHandler
 
-from MitsuriRobot import dispatcher
+from MitsuriRobot import dispatcher, bot_token as token
 
 
 url = 'https://google-reverse-image-api.vercel.app/reverse'
 
-def reverse(update, context):
-    message = update.effective_message
-    chat_id = update.effective_chat.id
+def reverse(update: Update, context: CallbackContext):
+    if not update.effective_message.reply_to_message:
+        update.effective_message.reply_text("Reply to a photo.")
 
-    reply = message.reply_to_message
-
-    if reply:
-        if reply.sticker:
-            file_id = reply.sticker.file_id
-            new_id = reply.sticker.file_unique_id
-        elif reply.photo:
-            file_id = reply.photo[-1].file_id
-            new_id = reply.photo[-1].file_unique_id
-        else:
-            message.reply_text("Reply To An Image Or Sticker To Lookup!")
-            return 
+    elif not update.effective_message.reply_to_message.photo:
+        update.effective_message.reply_text("Reply to an image.")
             
        elif update.effective_message.reply_to_message.photo:
         msg = update.effective_message.reply_text("Searching.....")
