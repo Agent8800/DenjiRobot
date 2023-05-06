@@ -1,91 +1,66 @@
-from SaitamaRobot import TOKEN, pbot as app
-from pyrogram import filters
+
+ """
+MIT License
+
+Copyright (c) 2023 SOME-1HING
+
+This file uses the "google-reverse-image-api" API made by "SOME-1HING"
+(https://github.com/SOME-1HING/google-reverse-image-api) under the terms of the MIT license.
+
+This example file is written by "yash-sharma-1807"
+
+Made only for Python Telegram Bot V13.15
+
+"""
+
 import requests
-from urllib.parse import quote_plus
-from bs4 import BeautifulSoup
-from unidecode import unidecode
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup 
-
-# Credit @the_only_god/@Yeah_Am_Kakashi de dia kar bhayy
-# -- Requirements --
-# pyrogram
-# Unidecode~=1.3.6
-# requests
-# beautifulsoup4
-# @reverse_test_bot - demo bot
+from Yourbot import dispatcher, Bot_token as Token
+from telegram import *
+from telegram.ext import *
 
 
+url = "https://google-reverse-image-api.vercel.app/reverse"
 
-async def Sauce(bot_token,file_id):
-    r = requests.post(f'https://api.telegram.org/bot{bot_token}/getFile?file_id={file_id}').json()
-    file_path = r['result']['file_path']
-    headers = {'User-agent': 'Mozilla/5.0 (Linux; Android 6.0.1; SM-G920V Build/MMB29K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.98 Mobile Safari/537.36'}
-    to_parse = f"https://images.google.com/searchbyimage?safe=off&sbisrc=tg&image_url=https://api.telegram.org/file/bot{bot_token}/{file_path}"
-    r = requests.get(to_parse,headers=headers)
-    soup = BeautifulSoup(r.text, 'html.parser')
-    result = {                            
-             "similar": '',
-             'output': ''
-         }
-    for similar_image in soup.find_all('input', {'class': 'gLFyf'}):
-         url = f"https://www.google.com/search?tbm=isch&q={quote_plus(similar_image.get('value'))}"
-         result['similar'] = url
-    for best in soup.find_all('div', {'class': 'r5a77d'}):
-        output = best.get_text()
-        decoded_text =  unidecode(output)
-        result["output"] = decoded_text
-        
-    return result
 
-async def get_file_id_from_message(msg):
-    file_id = None
-    message = msg.reply_to_message
-    if not message:
-        return 
-    if message.document:
-        if int(message.document.file_size) > 3145728:
-            return
-        mime_type = message.document.mime_type
-        if mime_type not in ("image/png", "image/jpeg"):
-            return
-        file_id = message.document.file_id
+def reverse(update: Update, context: CallbackContext):
+    if not update.effective_message.reply_to_message:
+        update.effective_message.reply_text("Reply to a photo.")
 
-    if message.sticker:
-        if message.sticker.is_animated:
-            if not message.sticker.thumbs:
-                return
-            file_id = message.sticker.thumbs[0].file_id
+    elif not update.effective_message.reply_to_message.photo:
+        update.effective_message.reply_text("Reply to an image.")
+
+    elif update.effective_message.reply_to_message.photo:
+        msg = update.effective_message.reply_text("Searching.....")
+
+        photo_id = update.effective_message.reply_to_message.photo[-1].file_id
+        get_path = requests.post(
+            f"https://api.telegram.org/bot{Token}/getFile?file_id={photo_id}"
+        ).json()
+        file_path = get_path["result"]["file_path"]
+        data = {
+            "imageUrl": f"https://images.google.com/searchbyimage?safe=off&sbisrc=tg&image_url=https://api.telegram.org/file/bot{Token}/{file_path}"
+        }
+
+        response = requests.post(url, json=data)
+        result = response.json()
+        if response.ok:
+            msg.edit_text(
+                f"[{result['data']['resultText']}]({result['data']['similarUrl']})",
+                parse_mode=ParseMode.MARKDOWN,
+                reply_markup=InlineKeyboardMarkup(
+                    [
+                        [
+                            InlineKeyboardButton(
+                                "Check this out", url="https://t.me/tyranteyeeee/36603"
+                            )
+                        ]
+                    ]
+                ),
+            )
         else:
-            file_id = message.sticker.file_id
-
-    if message.photo:
-        file_id = message.photo.file_id
-
-    if message.animation:
-        if not message.animation.thumbs:
-            return
-        file_id = message.animation.thumbs[0].file_id
-
-    if message.video:
-        if not message.video.thumbs:
-            return
-        file_id = message.video.thumbs[0].file_id
-    return file_id
-    
+            update.effective_message.reply_text("Some exception occured")
 
 
-@app.on_message(filters.command(["pp","grs","reverse","p"]))
-async def _reverse(_,msg):
-    text = await msg.reply("**⇢ wait a sec...**")
-    file_id = await get_file_id_from_message(msg)
-    if not file_id:
-        return await text.edit("**reply to media!**")
-    await text.edit("**⇢ Requesting to Google....**")    
-    result = await Sauce(bot_token,file_id)
-    if not result["output"]:
-        return await text.edit("Couldn't find anything")
-    await text.edit(f'[{result["output"]}]({result["similar"]})\n\n⇢**Credits** - @The_Only_God',reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Open Link",url=result["similar"])]]))
-   
- 
-                      
- 
+reverse_cmd = CommandHandler("reverse", reverse, run_async=True)
+
+dispatcher.add_handler(reverse_cmd)
