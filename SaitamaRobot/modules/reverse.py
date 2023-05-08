@@ -4,7 +4,7 @@ from telegram import *
 from telegram.ext import *
 
 
-url = "https://google-reverse-image-api.vercel.app/reverse"
+url = "https://google-reverse-image-api-coral.vercel.app/reverse"
 
 
 def reverse(update: Update, context: CallbackContext):
