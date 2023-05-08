@@ -8,12 +8,7 @@ import telegram.ext as tg
 from telethon import TelegramClient 
 from aiohttp import ClientSession
 from pyrogram import Client, errors, filters
-from SaitamaRobot.services.quoteapi import Quotly
 
-
-# --------------------#
-quotly = Quotly()
-# --------------------#
 
 StartTime = time.time()
 
