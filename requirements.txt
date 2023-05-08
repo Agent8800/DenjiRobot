@@ -39,4 +39,4 @@ pyrogram
 Unidecode==1.3.6
 gpytranslate
 requests
-quotly
+TgCrypto
