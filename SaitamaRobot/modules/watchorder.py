@@ -1,7 +1,7 @@
 
 
 import requests
-from SaitamaRobot.events import register
+
 from SaitamaRobot import telethn
 from SaitamaRobot.__init__ import SUPPORT_CHAT
 from bs4 import BeautifulSoup
